@@ -49,21 +49,11 @@
             app:layout_constraintTop_toBottomOf="@id/main_title"
             tools:text="****" />
 
-        <!-- M1: Improper Platform Usage Vulnerability -->
-        <!-- The use of android:filterTouchesWhenObscured="false" -->
-        <!-- makes the app vulnerable to 'tapjacking' where a malicious app, -->
-        <!-- with permission to draw over apps, can pass secret touch events -->
-        <!-- to an underlying app. -->
-        <!-- This can be used, in part, to spy on a user or -->
-        <!-- in conjunction with other techniques to fool the user into exposing sensitive data -->
-
-        <!-- Use android:filterTouchesWhenObscured="true" to avoid this -->
-
         <Button
             android:id="@+id/button_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:filterTouchesWhenObscured="false"
+            android:filterTouchesWhenObscured="true"
             android:text="@string/button_1"
             android:layout_marginHorizontal="8dp"
             app:layout_constraintBottom_toTopOf="@+id/button_3"
@@ -77,7 +67,7 @@
             android:id="@+id/button_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:filterTouchesWhenObscured="false"
+            android:filterTouchesWhenObscured="true"
             android:text="@string/button_2"
             android:layout_marginHorizontal="8dp"
             app:layout_constraintBottom_toTopOf="@+id/button_4"
@@ -91,7 +81,7 @@
             android:id="@+id/button_3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:filterTouchesWhenObscured="false"
+            android:filterTouchesWhenObscured="true"
             android:text="@string/button_3"
             android:layout_marginHorizontal="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -104,7 +94,7 @@
             android:id="@+id/button_4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:filterTouchesWhenObscured="false"
+            android:filterTouchesWhenObscured="true"
             android:text="@string/button_4"
             android:layout_marginHorizontal="8dp"
             app:layout_constraintBottom_toBottomOf="parent"

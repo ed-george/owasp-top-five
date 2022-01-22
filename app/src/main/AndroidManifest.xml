@@ -23,16 +23,10 @@
             </intent-filter>
         </activity>
 
-        <!-- M1: Improper Platform Usage Vulnerability -->
-        <!-- This activity is incorrectly exported, meaning it is accessible by other apps -->
-        <!-- Running the command below can open this activity: -->
-        <!-- adb shell am start -n dev.spght.owasp/dev.spght.owasp.home.MainActivity -->
-
-        <!-- Set any activities that should not be exposed to android:exported="false" -->
         <activity
             android:name=".home.MainActivity"
             android:screenOrientation="portrait"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.OWASPDemo.NoActionBar" />
 
     </application>
