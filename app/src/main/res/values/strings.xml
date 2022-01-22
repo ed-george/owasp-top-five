@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">My Secure App</string>
+    <string name="enter_your_pin">Enter your PIN</string>
+    <string name="button_1">1</string>
+    <string name="button_2">2</string>
+    <string name="button_3">3</string>
+    <string name="button_4">4</string>
+    <string name="button_clear">Clear</string>
+    <string name="main_content">You can only see this Activity if you are logged in!</string>
+</resources>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dev.spght.owasp">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:name=".SuperSecureApp"
+        android:theme="@style/Theme.OWASPDemo">
+
+        <activity
+            android:name=".login.LoginActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OWASPDemo.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- M1: Improper Platform Usage Vulnerability -->
+        <!-- This activity is incorrectly exported, meaning it is accessible by other apps -->
+        <!-- Running the command below can open this activity: -->
+        <!-- adb shell am start -n dev.spght.owasp/dev.spght.owasp.home.MainActivity -->
+
+        <!-- Set any activities that should not be exposed to android:exported="false" -->
+        <activity
+            android:name=".home.MainActivity"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/Theme.OWASPDemo.NoActionBar" />
+
+    </application>
+
+</manifest>
