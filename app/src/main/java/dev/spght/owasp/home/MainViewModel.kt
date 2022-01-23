@@ -1,12 +1,12 @@
 package dev.spght.owasp.home
 
-import android.util.Base64
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.spght.owasp.home.MainViewState.Loading
 import dev.spght.owasp.home.domain.HomeRepository
 import dev.spght.owasp.login.domain.LoginRepository
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,14 +28,11 @@ class MainViewModel @Inject constructor(
             // Cool new feature - get greeted by a random Rick & Morty character!
             val character = homeRepository.fetchCharacters().randomOrNull()
 
-            // M5: Insecure Cryptography
-            // Ensure you know the difference between encoding, hashing and encryption
-            // Encoding: The process of converting data from one form factor to another (two-way operation)
-            // Hashing: Mapping data via a one-way mathematical function that cannot be easily reversed
-            // Encryption: Mapping data via a two-way mathematical fugsnction that can only be reversed with the correct inputs
-
-            // This is encoding. Not encryption
-            val secretPin = Base64.encodeToString(loginRepository.getUserPin().toByteArray(), Base64.DEFAULT)
+            // Use Tink's crypto to encrypt the pin
+            // We still shouldn't be storing the user's pin though!
+            val pin = loginRepository.getUserPin().toByteArray()
+            val crypto = async { homeRepository.generateCrypto() }.await()
+            val secretPin = String(crypto.encrypt(pin, null))
 
             val mainGreeting = "\"Thanks for logging in using secret pin $secretPin\""
             val characterGreeting = character?.let { "${character.name} the ${character.species} says\n\n" }
