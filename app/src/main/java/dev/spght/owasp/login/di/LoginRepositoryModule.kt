@@ -15,7 +15,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+object LoginRepositoryModule {
 
     @Singleton
     @Provides
@@ -36,6 +36,5 @@ object RepositoryModule {
         )
 
     }
-
 
 }

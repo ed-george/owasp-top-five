@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.spght.owasp.home.MainViewState.Loading
+import dev.spght.owasp.home.domain.HomeRepository
 import dev.spght.owasp.login.domain.LoginRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repository: LoginRepository
+    private val loginRepository: LoginRepository,
+    private val homeRepository: HomeRepository
 ) : ViewModel() {
     
     private val _uiState = MutableStateFlow<MainViewState>(Loading)
@@ -22,9 +23,15 @@ class MainViewModel @Inject constructor(
 
     fun start() {
         viewModelScope.launch {
-            delay(1000)
-            val greeting = "Thanks for logging in using ${repository.getUserPin()}"
+
+            // Cool new feature - get greeted by a random Rick & Morty character!
+            val character = homeRepository.fetchCharacters().randomOrNull()
+            val mainGreeting = "\"Thanks for logging in using ${loginRepository.getUserPin()}\""
+            val characterGreeting = character?.let { "${character.name} the ${character.species} says\n\n" }
+
+            val greeting = characterGreeting?.let { it + mainGreeting } ?: mainGreeting
             _uiState.emit(MainViewState.Home(greeting))
+
         }
     }
 
