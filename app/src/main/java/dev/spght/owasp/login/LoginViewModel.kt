@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.spght.owasp.login.LoginViewState.Initial
 import dev.spght.owasp.login.LoginViewState.PinCorrect
 import dev.spght.owasp.login.LoginViewState.PinEntered
+import dev.spght.owasp.login.domain.LoginRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +15,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(): ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val loginRepository: LoginRepository
+): ViewModel() {
 
     private val _event = MutableStateFlow<LoginViewState>(Initial)
     val event: StateFlow<LoginViewState> = _event.asStateFlow()
@@ -26,7 +29,10 @@ class LoginViewModel @Inject constructor(): ViewModel() {
         viewModelScope.launch {
             userInputs.add(value)
             _event.emit(PinEntered(userInputs.size % 5))
-            if (userInputs.takeLast(4) == EXPECTED_PIN) {
+            val enteredPin = userInputs.takeLast(4)
+            if (enteredPin == EXPECTED_PIN) {
+                // DO NOT DO THIS IRL!
+                loginRepository.saveUserPin(enteredPin)
                 // Bingo!
                 delay(200)
                 _event.emit(PinCorrect)
