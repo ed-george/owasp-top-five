@@ -1,7 +1,6 @@
 package dev.spght.owasp.home
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -39,11 +38,9 @@ class MainActivity : AppCompatActivity() {
         viewModel.uiState.collect { uiState ->
             when (uiState) {
                 is MainViewState.Home -> {
-                    // M2: Insecure Data Storage / Leakage
-                    // The use of a Toast here exposes the data as a system-wide view
-                    // In theory, these views can be captured by other malicious apps
-                    // Do NOT put any sensitive data in system-wide views
-                    Toast.makeText(this, uiState.userGreeting, Toast.LENGTH_LONG).show()
+                    // No longer system-wide view
+                    // ... still not a great idea to display this though! :)
+                    binding.mainTextView.append("\n\n" + uiState.userGreeting)
                 }
                 else -> {
                     // NO-OP

@@ -9,11 +9,10 @@ class LoginRepositoryImpl @Inject constructor(
 ) : LoginRepository {
 
     override fun saveUserPin(pin: List<Int>) {
-        // M2: Insecure Data Storage
-        // Shared preferences is NOT secure data storage
-        // Data is stored in plaintext within an XML file that is easily accessible on the device
-        //
-        // Consider using a secure storage solution such as AndroidX Security or Room + sqlcipher
+        // This pref is now stored in AndroidX Security Lib's EncryptedSharedPreferences
+        // that utilises the Android keystore system and cyptography to make sure data is stored
+        // securely and is no longer stored unencrypted on the device
+        // See: https://developer.android.com/topic/security/data#edit-shared-preferences
         sharedPreferences.edit().putString(PREF_KEY, pin.joinToString(separator = "")).apply()
     }
 
