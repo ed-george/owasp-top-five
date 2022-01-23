@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.spght.owasp.BuildConfig
 import dev.spght.owasp.home.data.RickAndMortyApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -43,17 +44,14 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
-        // M3: Insecure Communication
         // Don't expose network traffic in the logs in release builds
-        val logLevel = Level.BODY
+        val logLevel = if (BuildConfig.DEBUG) Level.BODY else Level.NONE
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply { level = logLevel })
             .build()
     }
 
-    // M3: Insecure Communication
-    // This URL is not HTTPS and in combination with the Network Security Configuration
-    // sends data in cleartext across the network. It could easily be intercepted and read
-    private const val BASE_URL = "http://rickandmortyapi.com/api/"
+    // This URL is now HTTPS
+    private const val BASE_URL = "https://rickandmortyapi.com/api/"
 
 }

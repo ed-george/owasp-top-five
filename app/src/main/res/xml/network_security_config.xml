@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
 
-    <!-- M3: Insecure Communication -->
-    <!-- A poorly configured network security config can expose your network calls -->
-    <!-- Sending cleartext traffic or allowing user certificates can allow malicious actors -->
-    <!-- to intercept data as well as read and modify network requests. -->
-
-    <!-- Setting cleartextTrafficPermitted to true in the base config does not limit -->
-    <!-- the scope of permitted cleartext traffic. It should be false (default as of Android 8) -->
-    <!-- Any exclusions (if *absolutely* required) should be marked in a domain-config only -->
-    <base-config cleartextTrafficPermitted="true">
+    <!-- Ensure cleartextTrafficPermitted is false -->
+    <base-config cleartextTrafficPermitted="false">
         <trust-anchors>
             <certificates src="system" />
-
-            <!-- M3: Insecure Communication -->
-            <!-- Allowing user certificates in the base-config makes release versions -->
-            <!-- of your app vulnerable to interception of HTTPS calls via proxying -->
-
-            <!-- User certificates should only ever be enabled within the debug-overrides -->
-            <certificates src="user" />
         </trust-anchors>
     </base-config>
+
+    <!--  If you REALLY need to handle cleartext traffic, then add domains to a domain-config  -->
+    <!--    <domain-config cleartextTrafficPermitted="true">  -->
+    <!--        <domain includeSubdomains="false">rickandmortyapi.com</domain>  -->
+    <!--    </domain-config>  -->
+
+    <!--  Only add user certificate allowances in the debug-overrides to  -->
+    <!--  ensure release builds are secure  -->
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </debug-overrides>
+
 </network-security-config>
