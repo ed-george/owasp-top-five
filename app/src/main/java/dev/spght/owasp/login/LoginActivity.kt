@@ -30,6 +30,8 @@ class LoginActivity : AppCompatActivity() {
         binding.button2.setOnClickListener { viewModel.didSelect(2) }
         binding.button3.setOnClickListener { viewModel.didSelect(3) }
         binding.button4.setOnClickListener { viewModel.didSelect(4) }
+        binding.button5.setOnClickListener { viewModel.didSelect(5) }
+        binding.button6.setOnClickListener { viewModel.didSelect(6) }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

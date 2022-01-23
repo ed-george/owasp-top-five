@@ -41,10 +41,8 @@ class LoginViewModel @Inject constructor(
     }
 
     companion object {
-        // M4: Insecure Authentication
-        // A PIN size of 4 is easily guessable
-        // Most people use dates or common patterns
-        private val PIN_SIZE = 4
+        // A PIN size of 6 is far less guessable
+        private val PIN_SIZE = 6
         private val EXPECTED_PIN = (1..PIN_SIZE).toList()
     }
 }
