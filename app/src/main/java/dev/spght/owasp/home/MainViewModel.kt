@@ -1,5 +1,6 @@
 package dev.spght.owasp.home
 
+import android.util.Base64
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +27,17 @@ class MainViewModel @Inject constructor(
 
             // Cool new feature - get greeted by a random Rick & Morty character!
             val character = homeRepository.fetchCharacters().randomOrNull()
-            val mainGreeting = "\"Thanks for logging in using ${loginRepository.getUserPin()}\""
+
+            // M5: Insecure Cryptography
+            // Ensure you know the difference between encoding, hashing and encryption
+            // Encoding: The process of converting data from one form factor to another (two-way operation)
+            // Hashing: Mapping data via a one-way mathematical function that cannot be easily reversed
+            // Encryption: Mapping data via a two-way mathematical fugsnction that can only be reversed with the correct inputs
+
+            // This is encoding. Not encryption
+            val secretPin = Base64.encodeToString(loginRepository.getUserPin().toByteArray(), Base64.DEFAULT)
+
+            val mainGreeting = "\"Thanks for logging in using secret pin $secretPin\""
             val characterGreeting = character?.let { "${character.name} the ${character.species} says\n\n" }
 
             val greeting = characterGreeting?.let { it + mainGreeting } ?: mainGreeting
