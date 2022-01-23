@@ -28,8 +28,8 @@ class LoginViewModel @Inject constructor(
         // Don't do this IRL :)
         viewModelScope.launch {
             userInputs.add(value)
-            _event.emit(PinEntered(userInputs.size % 5))
-            val enteredPin = userInputs.takeLast(4)
+            _event.emit(PinEntered(userInputs.size % (PIN_SIZE + 1)))
+            val enteredPin = userInputs.takeLast(PIN_SIZE)
             if (enteredPin == EXPECTED_PIN) {
                 // DO NOT DO THIS IRL!
                 loginRepository.saveUserPin(enteredPin)
@@ -41,7 +41,10 @@ class LoginViewModel @Inject constructor(
     }
 
     companion object {
-        // Very Secure. Much Security. WOW!
-        private val EXPECTED_PIN = listOf(1,2,3,4)
+        // M4: Insecure Authentication
+        // A PIN size of 4 is easily guessable
+        // Most people use dates or common patterns
+        private val PIN_SIZE = 4
+        private val EXPECTED_PIN = (1..PIN_SIZE).toList()
     }
 }
